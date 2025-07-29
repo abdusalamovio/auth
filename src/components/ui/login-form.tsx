@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { LoginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { login } from "@/actions";
+import { toast } from "sonner";
 import { CardWrapper } from "./card-wrapper";
 
 import {
@@ -26,8 +29,18 @@ export function LoginForm() {
     },
   });
 
+  const [isPending, startTransittion] = useTransition();
+
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    startTransittion(async () => {
+      const result = await login(values);
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else if (result?.success) {
+        toast.success(result.success);
+      }
+    });
   };
 
   return (
@@ -51,6 +64,7 @@ export function LoginForm() {
                 <FormLabel>Почта</FormLabel>
                 <FormControl>
                   <Input
+                    disabled={isPending}
                     placeholder="tony@starkindustries.com"
                     type="email"
                     {...field}
@@ -68,14 +82,21 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>Пароль</FormLabel>
                 <FormControl>
-                  <Input placeholder="******" type="password" {...field} />
+                  <Input
+                    disabled={isPending}
+                    placeholder="******"
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit">Продолжить</Button>
+          <Button disabled={isPending} type="submit">
+            Продолжить
+          </Button>
         </form>
       </Form>
     </CardWrapper>

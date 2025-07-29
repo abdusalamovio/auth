@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { RegisterSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { register } from "@/actions";
+import { toast } from "sonner";
 import { CardWrapper } from "./card-wrapper";
 
 import {
@@ -27,8 +30,18 @@ export function RegisterForm() {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
+
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    console.log(values);
+    startTransition(async () => {
+      const result = await register(values);
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else if (result?.success) {
+        toast.success(result.success);
+      }
+    });
   };
 
   return (
@@ -50,7 +63,12 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Имя</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tony Stark" type="text" {...field} />
+                  <Input
+                    disabled={isPending}
+                    placeholder="Tony Stark"
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,6 +83,7 @@ export function RegisterForm() {
                 <FormLabel>Почта</FormLabel>
                 <FormControl>
                   <Input
+                    disabled={isPending}
                     placeholder="tony@starkindustries.com"
                     type="email"
                     {...field}
@@ -82,14 +101,21 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Пароль</FormLabel>
                 <FormControl>
-                  <Input placeholder="******" type="password" {...field} />
+                  <Input
+                    disabled={isPending}
+                    placeholder="******"
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit">Продолжить</Button>
+          <Button disabled={isPending} type="submit">
+            Продолжить
+          </Button>
         </form>
       </Form>
     </CardWrapper>
