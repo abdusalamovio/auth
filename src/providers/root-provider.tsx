@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren } from "react";
 import { ThemeProvider } from "./theme-provider";
+import { ToastProvider } from "./toast-provider";
 
 export function RootProvider({ children }: PropsWithChildren<unknown>) {
   return (
@@ -11,6 +12,7 @@ export function RootProvider({ children }: PropsWithChildren<unknown>) {
       enableSystem
       disableTransitionOnChange
     >
+      <ToastProvider />
       {children}
     </ThemeProvider>
   );
