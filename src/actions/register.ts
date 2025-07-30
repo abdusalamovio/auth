@@ -3,6 +3,7 @@
 import z from "zod";
 import { RegisterSchema } from "@/schemas";
 import bcryptjs from "bcryptjs";
+import { getUserByEmail } from "@/data";
 import { db } from "@/lib";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
@@ -16,7 +17,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const hashedPassword = await bcryptjs.hash(password, 10);
 
-  const existingUser = await db.user.findUnique({ where: { email } });
+  const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
     return { error: "Эта почта уже используется" };
