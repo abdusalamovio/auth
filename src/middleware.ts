@@ -1,21 +1,23 @@
-export const API_AUTH_PREFIX = "/api/auth";
-export const GUEST_ROUTES = ["/login", "/register"];
-export const PUBLIC_ROUTES = ["/"];
-
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
 
+import { API_AUTH_PREFIX, GUEST_ROUTES, PUBLIC_ROUTES } from "@/routes";
+
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
-  const nextUrl = req.nextUrl;
-  const isLoggedIn = !!req.auth;
+export default auth((request) => {
+  const isLoggedIn = !!request.auth;
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(API_AUTH_PREFIX);
-  const isGuestRoute = GUEST_ROUTES.includes(nextUrl.pathname);
-  const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
+  const nextUrl = request.nextUrl;
+  const pathname = nextUrl.pathname;
 
-  if (isApiAuthRoute) return null;
+  const isApiAuthRoute = pathname.startsWith(API_AUTH_PREFIX);
+  const isGuestRoute = GUEST_ROUTES.includes(pathname);
+  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
+
+  if (isApiAuthRoute) {
+    return null;
+  }
 
   if (isGuestRoute) {
     if (isLoggedIn) {
