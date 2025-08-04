@@ -1,11 +1,11 @@
 "use server";
 
 import z from "zod";
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/shared/model";
 import { signIn } from "@/auth";
-import { prisma } from "@/shared/lib";
 import { AuthError } from "next-auth";
-import { sendVerificationEmail, generateVerificationToken } from "@/lib";
+import { generateVerificationToken, sendVerificationEmail } from "@/lib";
+import { getUserByEmail } from "@/data";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -16,7 +16,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   const { email, password } = validatedFields.data;
 
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+  const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Пользователь с такой почтой не найден!" };
@@ -28,7 +28,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     );
 
     await sendVerificationEmail(
-      verificationToken.identifier,
+      verificationToken.email,
       verificationToken.token,
     );
 

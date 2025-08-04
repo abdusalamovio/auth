@@ -1,5 +1,5 @@
-const guestOnly = ["/login", "/register"];
-const publicRoutes = ["/"];
+const GUEST_ROUTES = ["/login", "/register"];
+const PUBLIC_ROUTES = ["/", "/new-verification"];
 
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
@@ -9,25 +9,25 @@ import { NextResponse } from "next/server";
 const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
-  const isAuthenticated = !!req.auth;
+  const isLoggedIn = !!req.auth;
   const pathname = req.nextUrl.pathname;
 
   const isApiRoute = pathname.startsWith("/api/auth");
-  const isGuestOnly = guestOnly.includes(pathname);
-  const isPublic = publicRoutes.includes(pathname);
+  const isGuestRoute = GUEST_ROUTES.includes(pathname);
+  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
 
   if (isApiRoute) {
     return NextResponse.next();
   }
 
-  if (isGuestOnly) {
-    if (isAuthenticated) {
+  if (isGuestRoute) {
+    if (isLoggedIn) {
       return NextResponse.redirect(new URL("/settings", req.url));
     }
     return NextResponse.next();
   }
 
-  if (!isAuthenticated && !isPublic) {
+  if (!isLoggedIn && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import { RegisterSchema } from "@/schemas";
+import { RegisterSchema } from "@/shared/model";
 import bcryptjs from "bcryptjs";
 import { prisma } from "@/shared/lib";
 import { generateVerificationToken, sendVerificationEmail } from "@/lib";
@@ -33,10 +33,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const verificationToken = await generateVerificationToken(email);
 
-  await sendVerificationEmail(
-    verificationToken.identifier,
-    verificationToken.token,
-  );
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return { success: "Письмо с подтверждением отправлено!" };
 };
