@@ -27,8 +27,7 @@ export function NewVerificationForm() {
       } else if (result?.success) {
         toast.success(result.success);
       }
-    } catch (error) {
-      console.error("Ошибка при подтверждении:", error);
+    } catch {
       toast.error("Произошла ошибка при подтверждении почты");
     } finally {
       setIsLoading(false);

@@ -1,3 +1,5 @@
+"use server";
+
 import { prisma } from "@/shared/lib";
 
 import { getUserByEmail, getVerificationTokenByToken } from "@/data";
