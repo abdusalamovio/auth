@@ -16,3 +16,14 @@ export const RegisterSchema = z.object({
     .email("Введите корректную почту"),
   password: z.string().min(1, "Введите пароль").min(6, "Минимум 6 символов"),
 });
+
+export const ResetPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Введите вашу почту")
+    .email("Введите корректную почту"),
+});
+
+export const NewPasswordSchema = z.object({
+  password: z.string().min(1, "Введите пароль").min(6, "Минимум 6 символов"),
+});

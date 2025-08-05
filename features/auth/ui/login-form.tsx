@@ -19,6 +19,7 @@ import {
   Input,
   Button,
 } from "@/shared/ui";
+import Link from "next/link";
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -80,7 +81,15 @@ export function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Пароль</FormLabel>
+                <div className="flex items-center justify-between">
+                  <FormLabel>Пароль</FormLabel>
+                  <Link
+                    href="/reset-password"
+                    className="ml-auto inline-block text-sm underline"
+                  >
+                    Забыли пароль?
+                  </Link>
+                </div>
                 <FormControl>
                   <Input
                     disabled={isPending}

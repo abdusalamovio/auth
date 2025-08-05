@@ -4,10 +4,10 @@ import { Loading } from "@/shared/ui";
 import { CardWrapper } from "./card-wrapper";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { newVerification } from "@/actions";
+import { verifyEmailAction } from "@/actions";
 import { toast } from "sonner";
 
-export function NewVerificationForm() {
+export function VerifyEmail() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ export function NewVerificationForm() {
     }
 
     try {
-      const result = await newVerification(token);
+      const result = await verifyEmailAction(token);
 
       if (result?.error) {
         toast.error(result.error);

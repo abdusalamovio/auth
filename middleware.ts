@@ -1,5 +1,10 @@
-const GUEST_ROUTES = ["/login", "/register"];
-const PUBLIC_ROUTES = ["/", "/new-verification"];
+const GUEST_ROUTES = [
+  "/login",
+  "/register",
+  "/reset-password",
+  "/new-password",
+];
+const PUBLIC_ROUTES = ["/", "/verify"];
 
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
