@@ -1,13 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { RegisterSchema } from "./register.schema";
+import { type RegisterSchemaType, RegisterSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
-import { registerAction } from "./register.action";
+import { registerAction } from "../action";
 import { toast } from "sonner";
-import { CardWrapper } from "@/features/auth/wrapper";
-import { RegisterSchemaType } from "./register.types";
+import { CardWrapper } from "@/features/auth/card-wrapper";
 
 import {
   Form,

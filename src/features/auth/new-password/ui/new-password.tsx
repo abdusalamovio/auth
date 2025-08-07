@@ -1,13 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { NewPasswordSchema } from "./new-password.schema";
+import { type NewPasswordSchemaType, NewPasswordSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
-import { newPasswordAction } from "./new-password.action";
+import { newPasswordAction } from "../action";
 import { toast } from "sonner";
-import { CardWrapper } from "@/features/auth/wrapper";
-import { NewPasswordSchemaType } from "./new-password.types";
+import { CardWrapper } from "@/features/auth/card-wrapper";
 
 import {
   Form,

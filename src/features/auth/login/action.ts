@@ -1,13 +1,12 @@
 "use server";
 
-import { LoginSchemaType } from "./login.types";
-import { LoginSchema } from "./login.schema";
+import { LoginSchema, type LoginSchemaType } from "./schema";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
 import {
   generateVerificationToken,
-  sendVerifiEmail,
+  sendVerificationEmail,
   prisma,
 } from "@/shared/lib";
 
@@ -28,7 +27,10 @@ export const loginAction = async (values: LoginSchemaType) => {
       existingUser.email,
     );
 
-    await sendVerifiEmail(verificationToken.email, verificationToken.token);
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token,
+    );
 
     return { success: "Письмо с подтверждением отправлено!" };
   }

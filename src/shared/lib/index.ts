@@ -1,4 +1,6 @@
 export { prisma } from "./prisma";
-
-export * from "./resend";
-export * from "./tokens";
+export { sendVerificationEmail, sendResetPasswordEmail } from "./resend";
+export {
+  generateVerificationToken,
+  generateResetPasswordToken,
+} from "./tokens";

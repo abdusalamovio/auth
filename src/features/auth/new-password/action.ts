@@ -1,8 +1,7 @@
 "use server";
 
-import { NewPasswordSchema } from "./new-password.schema";
+import { type NewPasswordSchemaType, NewPasswordSchema } from "./schema";
 
-import { NewPasswordSchemaType } from "./new-password.types";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/shared/lib";
 
@@ -20,7 +19,7 @@ export const newPasswordAction = async (
   }
   const { password } = validatedFields.data;
 
-  const existingToken = await prisma.passwordResetToken.findUnique({
+  const existingToken = await prisma.resetPasswordToken.findUnique({
     where: { token },
   });
 
@@ -51,7 +50,7 @@ export const newPasswordAction = async (
     },
   });
 
-  await prisma.passwordResetToken.delete({
+  await prisma.resetPasswordToken.delete({
     where: { id: existingToken.id },
   });
 

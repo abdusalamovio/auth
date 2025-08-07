@@ -1,13 +1,12 @@
 "use server";
 
-import { RegisterSchema } from "./register.schema";
-import { RegisterSchemaType } from "./register.types";
+import { type RegisterSchemaType, RegisterSchema } from "./schema";
 import bcryptjs from "bcryptjs";
 
 import {
   generateVerificationToken,
   prisma,
-  sendVerifiEmail,
+  sendVerificationEmail,
 } from "@/shared/lib";
 
 export const registerAction = async (values: RegisterSchemaType) => {
@@ -37,7 +36,7 @@ export const registerAction = async (values: RegisterSchemaType) => {
 
   const verificationToken = await generateVerificationToken(email);
 
-  await sendVerifiEmail(verificationToken.email, verificationToken.token);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return { success: "Письмо с подтверждением отправлено!" };
 };

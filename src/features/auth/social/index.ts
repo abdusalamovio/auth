@@ -1,1 +1,1 @@
-export { Social } from "./social.ui";
+export { Social } from "./ui/social";

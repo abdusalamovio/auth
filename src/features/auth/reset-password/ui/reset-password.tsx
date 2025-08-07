@@ -1,11 +1,10 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { ResetPasswordSchema } from "./reset-password.schema";
+import { type ResetPasswordSchemaType, ResetPasswordSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CardWrapper } from "@/features/auth/wrapper";
-import { resetPasswordAction } from "./reset-password.action";
-import { ResetPasswordSchemaType } from "./reset-password.types";
+import { CardWrapper } from "@/features/auth/card-wrapper";
+import { resetPasswordAction } from "../action";
 
 import {
   Form,

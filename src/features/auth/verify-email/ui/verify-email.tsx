@@ -1,10 +1,10 @@
 "use client";
 
 import { Loading } from "@/shared/ui";
-import { CardWrapper } from "@/features/auth/wrapper";
+import { CardWrapper } from "@/features/auth/card-wrapper";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { verifyEmailAction } from "./verify-email.action";
+import { verifyEmailAction } from "../action";
 import { toast } from "sonner";
 
 export function VerifyEmail() {

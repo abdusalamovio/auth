@@ -1,14 +1,14 @@
 "use server";
 
-import { ResetPasswordSchema } from "./reset-password.schema";
+import { ResetPasswordSchema } from "./schema";
 
 import {
   sendResetPasswordEmail,
-  generatePasswordResetToken,
+  generateResetPasswordToken,
   prisma,
 } from "@/shared/lib";
 
-import { ResetPasswordSchemaType } from "./reset-password.types";
+import { ResetPasswordSchemaType } from "./schema";
 
 export const resetPasswordAction = async (values: ResetPasswordSchemaType) => {
   const validatedFields = ResetPasswordSchema.safeParse(values);
@@ -25,7 +25,7 @@ export const resetPasswordAction = async (values: ResetPasswordSchemaType) => {
     return { error: "Пользователь с таким email не найден" };
   }
 
-  const passwordResetToken = await generatePasswordResetToken(email);
+  const passwordResetToken = await generateResetPasswordToken(email);
 
   await sendResetPasswordEmail(
     passwordResetToken.email,

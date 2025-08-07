@@ -1,1 +1,1 @@
-export { ModeToggle } from "./mode-toggle.ui";
+export { ModeToggle } from "./ui/mode-toggle";
